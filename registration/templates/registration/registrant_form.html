@@ -1,0 +1,248 @@
+<form action="" method="POST">
+    {% csrf_token %}
+    {% if form.non_field_errors %}
+        <ul>
+        {% for error in form.non_field_errors %}
+            <li>{{ error }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+    <div class="card mb-3">
+        <div class="card-header">
+            <h2>Registrant</h2>
+        </div>
+
+        <div class="card-body">
+            <div class="container-fluid">
+                <div class="row">
+                    <!-- first name -->
+                    <div class="form-group col-sm-6"> 
+                        {{ form.first_name.label_tag }}
+                        {% if form.first_name.errors %}
+                            <ul>
+                                {% for error in form.first_name.errors %}
+                                <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        {{ form.first_name }}
+                        {% if form.first_name.help_text %}
+                            <br />{{ form.first_name.help_text }}
+                        {% endif %}
+                    </div>
+
+
+                    <!-- last name -->
+                    <div class="form-group col-sm-6"> 
+                        {{ form.last_name.label_tag }}
+                        {% if form.last_name.errors %}
+                            <ul>
+                                {% for error in form.last_name.errors %}
+                                <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        {{ form.last_name }}
+                        {% if form.last_name.help_text %}
+                            <br />{{ form.last_name.help_text }}
+                        {% endif %}
+                    </div>
+                </div> <!-- /row -->
+
+                <div class="row">
+                    <!-- age -->
+                    <div class="form-group col-sm-6"> 
+                        {{ form.age.label_tag }}
+                        {% if form.age.errors %}
+                            <ul>
+                                {% for error in form.age.errors %}
+                                <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        {{ form.age }}
+                        {% if form.age.help_text %}
+                            <br />{{ form.age.help_text }}
+                        {% endif %}
+                    </div> <!-- /form-group-->
+
+                    <!-- email -->
+                    <div class="form-group col-sm-6"> 
+                        {{ form.email.label_tag }}
+
+                        {% if form.email.errors %}
+                            <ul>
+                                {% for error in form.email.errors %}
+                                <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+
+                        {{ form.email }}
+
+                        {% if form.email.help_text %}
+                            <br />{{ form.email.help_text }}
+                        {% endif %}
+                    </div> <!-- /form-group -->
+                </div><!-- /row-->
+            </div><!-- /container-fluid -->
+        </div> <!-- /card-body -->
+    </div>
+
+    <!-- ADA accessible accommodations -->
+    <div class="card mb-3">
+        <div class="card-header">
+            <h2>Accessibility</h2>
+        </div>
+
+        {% if form.needs_ada_accessible_accommodations.help_text %}
+            <p class="mt-3 ml-3">
+                {{ form.needs_ada_accessible_accommodations.help_text }}
+            </p>
+        {% endif %}
+
+        <ul id="id_days_attending" class="list-group list-group-flush">
+            <li class="list-group-item">
+                <label class="checkbox">
+                    {{ form.needs_ada_accessible_accommodations }}
+                    <span class="primary"></span>
+                </label>
+
+                {{ form.needs_ada_accessible_accommodations.label }}
+            </li>
+        </ul>
+
+        {% if form.needs_ada_accessible_accommodations.errors %}
+            <ul class="ml-3">
+                {% for error in form.needs_ada_accessible_accommodations.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div><!-- /card -->
+
+    <!-- registration type -->
+    <div class="card mb-3 {% if form.registration_type.errors %}border border-danger{% endif %}">
+        <div class="card-header">
+            <h2>Registration type</h2>
+        </div>
+
+        <label class="mt-3 ml-3">Select one</label>
+
+        <ul id="id_registration_type" class="list-group list-group-flush">
+            {% for key, value in form.registration_type.field.choices %}
+                <li class="list-group-item">
+                    <label class="checkbox">
+                        <input type="radio" name="registration_type" value="{{ key }}" {% if key == form.registration_type.value %} checked=""{% endif %} />
+                        <span class="primary"></span>
+                    </label>
+
+                    {{ value }}
+                </li>
+            {% endfor %}
+        </ul>
+
+        {% if form.registration_type.help_text %}
+            <p class="ml-3">
+                {{ form.registration_type.help_text }}
+            </p>
+        {% endif %}
+
+        {% if form.registration_type.errors %}
+            {% for error in form.registration_type.errors %}
+                <div class="p-3 bg-danger text-white">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div><!-- /card -->
+
+    <!-- days attending -->
+    <div class="card mb-3" id="days-attending-container">
+        <div class="card-header">
+            <h2>Days attending</h2>
+        </div>
+
+        {% if form.days_attending.help_text %}
+            <p class="mt-3 ml-3">{{ form.days_attending.help_text }}</p>
+        {% endif %}
+
+        <ul id="id_days_attending" class="list-group list-group-flush">
+            {% for key, value in form.days_attending.field.choices %}
+                <li class="list-group-item">
+                    <label class="checkbox">
+                        <input type="checkbox" name="days_attending" value="{{ key }}" {% if key in form.days_attending.value %} checked=""{% endif %} />
+                        <span class="primary"></span>
+                    </label>
+
+                    {{ value }}
+                </li>
+            {% endfor %}
+        </ul>
+
+        {% if form.days_attending.errors %}
+            <ul>
+                {% for error in form.days_attending.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div><!-- /card -->
+    
+    <!-- overnight accommodations -->
+    <div class="card mb-3" id="overnight-accommodations-container">
+        <div class="card-header">
+            <h2>Overnight accommodations</h2>
+        </div>
+
+        {% if form.overnight_accommodations.help_text %}
+            <label class="mt-3 ml-3">
+                {{ form.overnight_accommodations.help_text }}
+            </label>
+        {% endif %}
+
+        <ul id="id_overnight_accommodations" class="list-group list-group-flush">
+            {% for option in form.overnight_accommodations.field.queryset %}
+                <li 
+                    class="list-group-item"
+                    data-age-min="{{ option.age_min }}"
+                    data-age-max="{{ option.age_max }}"
+                    data-daily-fee="{{ option.daily_fee }}"
+                    data-weekly-fee="{{ option.weekly_fee }}"
+                >
+                    <label class="checkbox">
+                        <input type="radio" name="overnight_accommodations" value="{{ option.pk }}" {% if option.pk == form.overnight_accommodations.value %} checked=""{% endif %} />
+                        <span class="primary"></span>
+                    </label>
+
+                    {{ option }}
+                </li>
+            {% endfor %}
+        </ul>
+
+        {% if form.overnight_accommodations.errors %}
+            <ul>
+                {% for error in form.overnight_accommodations.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div><!-- /card -->
+
+    <div class="card border border-primary">
+        <div class="card-header">
+            <h2>Save registrant</h2>
+        </div>
+
+        <div class="card-body">
+
+        <p>Press the button below to save this registrant.</p>
+
+        <button type="submit" class="btn btn-md btn-outline-success">
+            <i class="material-icons">playlist_add_check</i>
+            Save registrant
+            <i class="material-icons">face</i>
+        </button>
+    </div>
+</form>

@@ -1,0 +1,12 @@
+
+
+var redirectToLocalSiteInfo = {
+    "geoIpLocation": "IN",
+    "currentCountry": "India",
+    "currentDomain": "www.bostonindia.in",
+    "localCountry": "India",
+    "localDomain": "www.bostonindia.in",
+    "offerRedirect": false,
+    "offerRedirectTo": ""
+    };
+
